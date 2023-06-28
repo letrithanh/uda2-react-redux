@@ -16,15 +16,17 @@ const Login = () => {
         }
     }, [userId, navigate]);
 
-    const [username, setUsername] = useState("");
-    const [password, setPassword] = useState("");
+    const [username, setUsername] = useState("sarahedo");
+    const [password, setPassword] = useState("password123");
     const [isSubmitted, setSubmitted] = useState(false);
 
     function onSubmit(event) {
         event.preventDefault();
-        setSubmitted(true);
         _getUsers()
-            .then((onfulfilled) => onfulfilled[username])
+            .then((onfulfilled) => {
+                setSubmitted(true);
+                return onfulfilled[username]
+            })
             .then((user) => {
                 if (user && user.password === password) {
                     dispatch(loggin(user));

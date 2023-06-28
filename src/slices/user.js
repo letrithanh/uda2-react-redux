@@ -7,11 +7,14 @@ export const userSlice = createSlice({
     },
     reducers: {
         loggin: (state, action) => {
-            state.info = action.payload
+            state.info = action.payload;
+        },
+        loggout: (state) => {
+            state.info = undefined;
         },
     },
 });
 
-export const { loggin } = userSlice.actions;
+export const { loggin, loggout } = userSlice.actions;
 
 export default userSlice.reducer;
