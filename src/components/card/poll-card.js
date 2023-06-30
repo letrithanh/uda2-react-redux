@@ -1,11 +1,11 @@
 import React from "react";
 import { ArrowTopRightOnSquareIcon } from "@heroicons/react/20/solid";
 import { openQuestion } from "../../slices/question";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 
-const PollCard = ({question}) => {
-
+const PollCard = ({ question }) => {
     const dispatch = useDispatch();
+    const userId = useSelector((state) => state.user.info?.id);
 
     return (
         <div
@@ -24,15 +24,13 @@ const PollCard = ({question}) => {
                     </p>
                 </div>
             </div>
-            <div 
+            <div
                 className="hover:bg-indigo-600 hover:text-white cursor-pointer rounded-b-md"
-                onClick={() => dispatch(openQuestion(question))}
+                onClick={() => { userId && dispatch(openQuestion(question)) }}
             >
                 <div className="-mt-px flex divide-x divide-gray-200">
                     <div className="-ml-px flex w-0 flex-1">
-                        <div
-                            className="relative inline-flex w-0 flex-1 items-center justify-center gap-x-3 rounded-br-lg border border-transparent py-4 text-sm font-semibold text-gray-900 cursor-pointer hover:text-white"
-                        >
+                        <div className="relative inline-flex w-0 flex-1 items-center justify-center gap-x-3 rounded-br-lg border border-transparent py-4 text-sm font-semibold text-gray-900 cursor-pointer hover:text-white">
                             <ArrowTopRightOnSquareIcon
                                 className="h-5 w-5 text-gray-400 hover:text-white"
                                 aria-hidden="true"
