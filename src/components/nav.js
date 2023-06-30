@@ -9,6 +9,9 @@ import { Link, useLocation } from "react-router-dom";
 import { loggout } from "../slices/user";
 
 export const HOME_PATH = "/";
+export const QUESTION_PATH_PARAM = "/questions"
+export const QUESTION_ID_PATH_PARAM = ":question_id"
+export const QUESTION_PATH = `${QUESTION_PATH_PARAM}/${QUESTION_ID_PATH_PARAM}`
 export const LOGIN_PATH = "/login";
 export const LEADER_BOARD_PATH = "/leader-board";
 export const NEW_PATH = "/new";

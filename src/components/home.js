@@ -2,15 +2,11 @@ import React, { useEffect } from "react";
 import PollCardSection from "./card/poll-card-section";
 import { useSelector, useDispatch } from "react-redux";
 import { _getQuestions } from "../_DATA";
-import { closeQuestion, update } from "../slices/question";
-import QuestionCard from "./card/question-card";
+import { update } from "../slices/question";
 
 const Home = () => {
     const user = useSelector((state) => state.user.info);
     const questionInfo = useSelector((state) => state.question);
-    const openningQuestion = useSelector(
-        (state) => state.question.openningQuestion
-    );
     const dispatch = useDispatch();
 
     useEffect(() => {
@@ -21,6 +17,7 @@ const Home = () => {
             });
             dispatch(update(sortedQuestions));
         };
+     
         fetchQuestions();
     }, [dispatch]);
 
@@ -59,14 +56,6 @@ const Home = () => {
             )}
             {user?.id && questionInfo.all?.length > 0 && (
                 <PollCardSection name="Done" questions={doneQuestions()} />
-            )}
-            {user?.id && openningQuestion && (
-                <div className="absolute z-50 top-0 left-0 bg-gray-50 h-full w-full p-8">
-                    <QuestionCard
-                        question={openningQuestion}
-                        onClose={() => dispatch(closeQuestion())}
-                    />
-                </div>
             )}
         </div>
     );

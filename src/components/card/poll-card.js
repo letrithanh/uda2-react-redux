@@ -2,10 +2,22 @@ import React from "react";
 import { ArrowTopRightOnSquareIcon } from "@heroicons/react/20/solid";
 import { openQuestion } from "../../slices/question";
 import { useDispatch, useSelector } from "react-redux";
+import { useNavigate } from "react-router-dom";
+import { QUESTION_ID_PATH_PARAM, QUESTION_PATH } from "../nav";
 
 const PollCard = ({ question }) => {
     const dispatch = useDispatch();
     const userId = useSelector((state) => state.user.info?.id);
+    const navigate = useNavigate();
+
+    function onShowQuestion() {
+        if (userId && question) {
+            dispatch(openQuestion(question));
+            navigate(
+                QUESTION_PATH.replace(QUESTION_ID_PATH_PARAM, question.id)
+            );
+        }
+    }
 
     return (
         <div
@@ -26,7 +38,7 @@ const PollCard = ({ question }) => {
             </div>
             <div
                 className="hover:bg-indigo-600 hover:text-white cursor-pointer rounded-b-md"
-                onClick={() => { userId && dispatch(openQuestion(question)) }}
+                onClick={() => onShowQuestion()}
             >
                 <div className="-mt-px flex divide-x divide-gray-200">
                     <div className="-ml-px flex w-0 flex-1">
