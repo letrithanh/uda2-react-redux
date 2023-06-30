@@ -16,14 +16,21 @@ const Home = () => {
     useEffect(() => {
         const fetchQuestions = async () => {
             const resQuestions = await _getQuestions();
-            dispatch(update(Object.values(resQuestions)));
+            const sortedQuestions = Object.values(resQuestions).sort((q1, q2) => {
+                return q2.timestamp - q1.timestamp;
+            });
+            dispatch(update(sortedQuestions));
         };
         fetchQuestions();
     }, [dispatch]);
 
     function newQuestions() {
-        if (!questionInfo.all || !user) {
+        if (!questionInfo.all) {
             return [];
+        }
+
+        if (!user) {
+            return questionInfo.all;
         }
 
         const answeredQuestions = Object.keys(user.answers);
