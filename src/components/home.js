@@ -7,6 +7,7 @@ import QuestionCard from "./card/question-card";
 
 const Home = () => {
 
+    const userId = useSelector((state) => state.user.info?.id);
     const questionInfo = useSelector((state) => state.question)
     const openningQuestion = useSelector((state) => state.question.openningQuestion)
     const dispatch = useDispatch();
@@ -31,14 +32,14 @@ const Home = () => {
                 </div>
             }
             {
-                questionInfo.all?.length > 0 &&
+                userId && questionInfo.all?.length > 0 &&
                 <PollCardSection 
                     name="Done" 
                     questions={questionInfo?.all}
                 />
             }
             {
-                openningQuestion &&
+                userId && openningQuestion &&
                 <div className="absolute z-50 top-0 left-0 bg-gray-50 h-full w-full p-8">
                     <QuestionCard 
                         question={openningQuestion}
