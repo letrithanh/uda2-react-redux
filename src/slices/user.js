@@ -4,6 +4,7 @@ export const userSlice = createSlice({
     name: "user",
     initialState: {
         info: undefined,
+        all: undefined
     },
     reducers: {
         loggin: (state, action) => {
@@ -14,10 +15,13 @@ export const userSlice = createSlice({
         },
         update: (state, action) => {
             state.info = action.payload;
+        },
+        updateAll: (state, action) => {
+            state.all = action.payload;
         }
     },
 });
 
-export const { loggin, loggout, update } = userSlice.actions;
+export const { loggin, loggout, update, updateAll } = userSlice.actions;
 
 export default userSlice.reducer;

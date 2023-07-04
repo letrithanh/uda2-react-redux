@@ -61,8 +61,6 @@ const Question = () => {
     function isExistedQuestion() {
         return allQuestions.filter(each => `/questions/${each.id}` === location.pathname, []).length > 0;
     }
-    
-    console.log(location.pathname)
 
     async function fetchQuestions() {
         const resQuestions = await _getQuestions();
