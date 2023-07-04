@@ -12,9 +12,12 @@ export const userSlice = createSlice({
         loggout: (state) => {
             state.info = undefined;
         },
+        update: (state, action) => {
+            state.info = action.payload;
+        }
     },
 });
 
-export const { loggin, loggout } = userSlice.actions;
+export const { loggin, loggout, update } = userSlice.actions;
 
 export default userSlice.reducer;

@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import AnswerCard from "./answer-card";
 import { _getUsers } from "../../_DATA";
 
-const QuestionCard = ({ question, onClose }) => {
+const QuestionCard = ({ question, onClose, onAnswer, numFirstAnswer, numSecondAnswer, answered }) => {
     const [imageUrl, setImageUrl] = useState();
 
     useEffect(() => {
@@ -39,27 +39,35 @@ const QuestionCard = ({ question, onClose }) => {
                     Poll by {question.author}
                 </div>
                 <div className="w-full grid place-items-center">
-                    {
-                        imageUrl 
-                        ?
+                    {imageUrl ? (
                         <img
                             className="inline-block h-48 w-48 rounded-full"
                             src={imageUrl}
                             alt=""
                         />
-                        :
+                    ) : (
                         <div className="inline-block rounded-full bg-slate-700 h-48 w-48 animate-pulse"></div>
-                    }
+                    )}
                 </div>
                 <div className="w-full font-semibold text-3xl grid place-items-center">
                     Would You Rather
                 </div>
                 <div className="flex justify-center gap-8">
                     <div className="bg-white">
-                        <AnswerCard text={question.optionOne.text} />
+                        <AnswerCard 
+                            text={question.optionOne.text}
+                            onAnwserClick={() => onAnswer("optionOne")}
+                            btnText={answered ? `${(100 * numFirstAnswer/(numFirstAnswer + numSecondAnswer)).toFixed(2)}% - ${numFirstAnswer} vote(s)` : "Click"}
+                            isActiveButton={answered === "optionOne"}
+                        />
                     </div>
                     <div className="bg-white">
-                        <AnswerCard text={question.optionTwo.text} />
+                        <AnswerCard 
+                            text={question.optionTwo.text} 
+                            onAnwserClick={() => onAnswer("optionTwo")}
+                            btnText={answered ? `${(100 * numSecondAnswer/(numFirstAnswer + numSecondAnswer)).toFixed(2)}% - ${numSecondAnswer} vote(s)` : "Click"}
+                            isActiveButton={answered === "optionTwo"}
+                        />
                     </div>
                 </div>
             </div>
