@@ -31,7 +31,7 @@ const Home = () => {
         }
 
         const answeredQuestions = Object.keys(user.answers);
-        return questionInfo.all.filter(question => !answeredQuestions.includes(question.id), []);
+        return questionInfo.all.filter(question => !answeredQuestions.includes(question.id) && !user.questions.includes(question.id), []);
     }
 
     function doneQuestions() {
@@ -40,7 +40,7 @@ const Home = () => {
         }
 
         const answeredQuestions = Object.keys(user.answers);
-        return questionInfo.all.filter(question => answeredQuestions.includes(question.id), []);
+        return questionInfo.all.filter(question => answeredQuestions.includes(question.id) && !user.questions.includes(question.id), []);
     }
 
 

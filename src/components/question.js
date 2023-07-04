@@ -1,11 +1,12 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { _getQuestions, _saveQuestionAnswer, _getUsers } from "../_DATA";
-import { closeQuestion, update as updateQuestions } from "../slices/question";
+import { closeQuestion, updateFirstAnswerOpenningQuestion, updateSecondAnswerOpenningQuestion, update as updateQuestions } from "../slices/question";
 import { update as updateUser } from "../slices/user";
 import QuestionCard from "./card/question-card";
 import { HOME_PATH } from "./nav";
-import { useNavigate } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
+import NotFound from "./not-found";
 
 const Question = () => {
     
@@ -14,13 +15,15 @@ const Question = () => {
     const allQuestions = useSelector((state) => state.question.all);
     const dispatch = useDispatch();
     const navigate = useNavigate();
-    const [numFirstAnswer, setNumFirstAnswer] = useState();
-    const [numSecondAnswer, setNumSecondAnswer] = useState();
+    const numFirstAnswerOpenningQuestion = useSelector((state) => state.question.firstAnswerOpenningQuestion);
+    const numSecondAnswerOpenningQuestion = useSelector((state) => state.question.secondAnswerOpenningQuestion);
+    const location = useLocation();
 
     useEffect(() => {
         if (!allQuestions) {
             fetchQuestions();
         }
+        getAnswers(openningQuestion.id)
     }, [dispatch, allQuestions]);
 
     function onCloseClicked() {
@@ -50,12 +53,16 @@ const Question = () => {
                 const users = Object.values(onfulfilled);
                 const numFirstAnswer = users.filter(eachUser => eachUser.answers[questionId] === "optionOne", []).length;
                 const numSecondAnswer = users.filter(eachUser => eachUser.answers[questionId] === "optionTwo", []).length;
-                setNumFirstAnswer(numFirstAnswer);
-                setNumSecondAnswer(numSecondAnswer);
+                dispatch(updateFirstAnswerOpenningQuestion(numFirstAnswer))
+                dispatch(updateSecondAnswerOpenningQuestion(numSecondAnswer))
             })
     }
 
-    getAnswers(openningQuestion?.id)
+    function isExistedQuestion() {
+        return allQuestions.filter(each => `/questions/${each.id}` === location.pathname, []).length > 0;
+    }
+    
+    console.log(location.pathname)
 
     async function fetchQuestions() {
         const resQuestions = await _getQuestions();
@@ -65,17 +72,19 @@ const Question = () => {
 
     return (
         <div className="p-8 relative flex flex-col gap-4">
-            {user?.id && openningQuestion && (
+            {user?.id && openningQuestion && isExistedQuestion() ? (
                 <div className="absolute z-40 top-0 left-0 bg-gray-50 h-full w-full p-8">
                     <QuestionCard
                         question={openningQuestion}
                         onClose={() => onCloseClicked()}
                         onAnswer={onAnswerCallback}
-                        numFirstAnswer={numFirstAnswer}
-                        numSecondAnswer={numSecondAnswer}
+                        numFirstAnswer={numFirstAnswerOpenningQuestion}
+                        numSecondAnswer={numSecondAnswerOpenningQuestion}
                         answered={user.answers[openningQuestion.id]}
                     />
                 </div>
+            ) : (
+                <NotFound />
             )}
         </div>
     );

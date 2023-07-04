@@ -4,7 +4,9 @@ export const questionSlice = createSlice({
     name: "question",
     initialState: {
         all: undefined,
-        openningQuestion: undefined
+        openningQuestion: undefined,
+        firstAnswerOpenningQuestion: undefined,
+        secondAnswerOpenningQuestion: undefined,
     },
     reducers: {
         update: (state, action) => {
@@ -24,10 +26,22 @@ export const questionSlice = createSlice({
                 ...state,
                 openningQuestion: undefined
             }
-        }
+        },
+        updateFirstAnswerOpenningQuestion: (state, action) => {
+            return {
+                ...state,
+                firstAnswerOpenningQuestion: action.payload
+            }
+        },
+        updateSecondAnswerOpenningQuestion: (state, action) => {
+            return {
+                ...state,
+                secondAnswerOpenningQuestion: action.payload
+            }
+        },
     },
 });
 
-export const { update, openQuestion, closeQuestion } = questionSlice.actions;
+export const { update, openQuestion, closeQuestion, updateFirstAnswerOpenningQuestion, updateSecondAnswerOpenningQuestion } = questionSlice.actions;
 
 export default questionSlice.reducer;

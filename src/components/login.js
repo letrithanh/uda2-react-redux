@@ -4,15 +4,22 @@ import { useNavigate } from "react-router-dom";
 import { HOME_PATH } from "./nav";
 import { loggin } from "../slices/user";
 import { _getUsers } from "../_DATA";
+import { clean } from "../slices/navigation";
 
 const Login = () => {
     const userId = useSelector((state) => state.user.info?.id);
     const dispatch = useDispatch();
     const navigate = useNavigate();
+    const visitPath = useSelector((state) => state.navigation.path);
 
     useEffect(() => {
-        if (userId) {
+        if (userId && !visitPath) {
             navigate(HOME_PATH);
+        }
+
+        if (userId && visitPath) {
+            navigate(visitPath);
+            clean();
         }
     }, [userId, navigate]);
 

@@ -11,18 +11,20 @@ import NavigationBar, {
 import { Routes, Route, useLocation } from "react-router-dom";
 import Home from "./components/home";
 import Login from "./components/login";
-import NotFound from "./components/note-found";
+import NotFound from "./components/not-found";
 import LeaderBoard from "./components/leader-board";
 import New from "./components/new";
 import { useEffect } from "react";
 import Question from "./components/question";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
+import { visitBeforeLogin } from "./slices/navigation";
 
 function App() {
     const location = useLocation();
     const userId = useSelector((state) => state.user.info?.id);
     const navigate = useNavigate();
+    const dispatch = useDispatch();
 
     useEffect(() => {
         document.body.classList.add("h-full");
@@ -32,6 +34,7 @@ function App() {
     useEffect(() => {
         const isNotRedirectLoginPath = location.pathname === "" || location.pathname === HOME_PATH || location.pathname === LOGIN_PATH;
         if (!isNotRedirectLoginPath && !userId) {
+            dispatch(visitBeforeLogin(location.pathname))
             navigate(LOGIN_PATH);
         }
     }, [userId, location]);
