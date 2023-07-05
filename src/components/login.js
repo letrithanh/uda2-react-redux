@@ -21,7 +21,7 @@ const Login = () => {
             navigate(visitPath);
             clean();
         }
-    }, [userId, navigate]);
+    }, [userId, navigate, visitPath]);
 
     const [username, setUsername] = useState("sarahedo");
     const [password, setPassword] = useState("password123");

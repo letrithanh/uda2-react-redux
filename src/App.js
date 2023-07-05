@@ -37,7 +37,7 @@ function App() {
             dispatch(visitBeforeLogin(location.pathname))
             navigate(LOGIN_PATH);
         }
-    }, [userId, location]);
+    }, [userId, location, dispatch, navigate]);
 
     function isNavigationBarShow() {
         const pathName = location.pathname;

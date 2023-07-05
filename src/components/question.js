@@ -20,11 +20,28 @@ const Question = () => {
     const location = useLocation();
 
     useEffect(() => {
+        function getAnswers(questionId) {
+            _getUsers()
+                .then((onfulfilled) => {
+                    const users = Object.values(onfulfilled);
+                    const numFirstAnswer = users.filter(eachUser => eachUser.answers[questionId] === "optionOne", []).length;
+                    const numSecondAnswer = users.filter(eachUser => eachUser.answers[questionId] === "optionTwo", []).length;
+                    dispatch(updateFirstAnswerOpenningQuestion(numFirstAnswer))
+                    dispatch(updateSecondAnswerOpenningQuestion(numSecondAnswer))
+                })
+        }
+
+        async function fetchQuestions() {
+            const resQuestions = await _getQuestions();
+            const questions = Object.values(resQuestions);
+            dispatch(updateQuestions(questions));
+        };
+
         if (!allQuestions) {
             fetchQuestions();
         }
         getAnswers(openningQuestion.id)
-    }, [dispatch, allQuestions]);
+    }, [dispatch, allQuestions, openningQuestion.id]);
 
     function onCloseClicked() {
         dispatch(closeQuestion());
@@ -47,26 +64,9 @@ const Question = () => {
         });
     }
 
-    function getAnswers(questionId) {
-        _getUsers()
-            .then((onfulfilled) => {
-                const users = Object.values(onfulfilled);
-                const numFirstAnswer = users.filter(eachUser => eachUser.answers[questionId] === "optionOne", []).length;
-                const numSecondAnswer = users.filter(eachUser => eachUser.answers[questionId] === "optionTwo", []).length;
-                dispatch(updateFirstAnswerOpenningQuestion(numFirstAnswer))
-                dispatch(updateSecondAnswerOpenningQuestion(numSecondAnswer))
-            })
-    }
-
     function isExistedQuestion() {
         return allQuestions.filter(each => `/questions/${each.id}` === location.pathname, []).length > 0;
     }
-
-    async function fetchQuestions() {
-        const resQuestions = await _getQuestions();
-        const questions = Object.values(resQuestions);
-        dispatch(updateQuestions(questions));
-    };
 
     return (
         <div className="p-8 relative flex flex-col gap-4">
