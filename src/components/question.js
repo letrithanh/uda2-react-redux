@@ -40,8 +40,9 @@ const Question = () => {
         if (!allQuestions) {
             fetchQuestions();
         }
-        getAnswers(openningQuestion.id)
-    }, [dispatch, allQuestions, openningQuestion.id]);
+
+        getAnswers(openningQuestion?.id)
+    }, [dispatch, allQuestions, openningQuestion?.id]);
 
     function onCloseClicked() {
         dispatch(closeQuestion());
@@ -67,6 +68,8 @@ const Question = () => {
     function isExistedQuestion() {
         return allQuestions.filter(each => `/questions/${each.id}` === location.pathname, []).length > 0;
     }
+
+    
 
     return (
         <div className="p-8 relative flex flex-col gap-4">
