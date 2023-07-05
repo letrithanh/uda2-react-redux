@@ -32,7 +32,7 @@ function App() {
     }, []);
 
     useEffect(() => {
-        const isNotRedirectLoginPath = location.pathname === "" || location.pathname === HOME_PATH || location.pathname === LOGIN_PATH;
+        const isNotRedirectLoginPath = location.pathname === LOGIN_PATH;
         if (!isNotRedirectLoginPath && !userId) {
             dispatch(visitBeforeLogin(location.pathname))
             navigate(LOGIN_PATH);

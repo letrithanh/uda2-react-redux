@@ -1,7 +1,7 @@
 import React, { useEffect } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { _getQuestions, _saveQuestionAnswer, _getUsers } from "../_DATA";
-import { closeQuestion, updateFirstAnswerOpenningQuestion, updateSecondAnswerOpenningQuestion, update as updateQuestions } from "../slices/question";
+import { closeQuestion, updateFirstAnswerOpenningQuestion, updateSecondAnswerOpenningQuestion, update as updateQuestions, openQuestion } from "../slices/question";
 import { update as updateUser } from "../slices/user";
 import QuestionCard from "./card/question-card";
 import { HOME_PATH } from "./nav";
@@ -41,8 +41,16 @@ const Question = () => {
             fetchQuestions();
         }
 
+        if (!openningQuestion) {
+            const questionId = location.pathname.replace("/questions/", "");
+            const foundQuestion = allQuestions?.filter(each => each.id === questionId);
+            if (foundQuestion?.length > 0) {
+                dispatch(openQuestion(foundQuestion[0]));
+            }
+        }
+
         getAnswers(openningQuestion?.id)
-    }, [dispatch, allQuestions, openningQuestion?.id]);
+    }, [dispatch, allQuestions, openningQuestion, location.pathname]);
 
     function onCloseClicked() {
         dispatch(closeQuestion());
@@ -66,10 +74,8 @@ const Question = () => {
     }
 
     function isExistedQuestion() {
-        return allQuestions.filter(each => `/questions/${each.id}` === location.pathname, []).length > 0;
+        return allQuestions?.filter(each => `/questions/${each.id}` === location.pathname, []).length > 0;
     }
-
-    
 
     return (
         <div className="p-8 relative flex flex-col gap-4">
