@@ -29,6 +29,11 @@ const Login = () => {
 
     function onSubmit(event) {
         event.preventDefault();
+        if (!username || !password) {
+            setSubmitted(true);
+            return;
+        }
+        
         _getUsers()
             .then((onfulfilled) => {
                 setSubmitted(true);
@@ -85,6 +90,7 @@ const Login = () => {
                                 <div className="mt-2">
                                     <input
                                         id="password"
+                                        data-testid="password"
                                         name="password"
                                         type="password"
                                         required
@@ -100,7 +106,7 @@ const Login = () => {
                             {
                                 isSubmitted && 
                                 userId == null &&
-                                <div className="text-red-500 bg-red-50 w-full rounded-md px-3 py-1.5 grid place-items-center">
+                                <div className="text-red-500 bg-red-50 w-full rounded-md px-3 py-1.5 grid place-items-center" data-testid="message">
                                     Your credential is invalid!!!
                                 </div>
                             }
@@ -110,6 +116,7 @@ const Login = () => {
                                     type="submit"
                                     className="flex w-full justify-center rounded-md bg-indigo-600 px-3 py-1.5 text-sm font-semibold leading-6 text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
                                     onClick={onSubmit}
+                                    data-testid="submit-sign-in"
                                 >
                                     Sign in
                                 </button>
