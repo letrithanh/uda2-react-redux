@@ -54,7 +54,6 @@ const Home = () => {
     }
 
     function onTabChangeCallback(value) {
-        console.log(value)
         setView(value);
     }
 
