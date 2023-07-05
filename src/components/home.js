@@ -43,7 +43,6 @@ const Home = () => {
         return questionInfo.all.filter(question => answeredQuestions.includes(question.id), []);
     }
 
-
     return (
         <div className="p-8 relative flex flex-col gap-4">
             {questionInfo.all?.length > 0 && (
@@ -54,7 +53,7 @@ const Home = () => {
                     />
                 </div>
             )}
-            {user?.id && questionInfo.all?.length > 0 && (
+            {questionInfo.all?.length > 0 && (
                 <PollCardSection name="Done" questions={doneQuestions()} />
             )}
         </div>
